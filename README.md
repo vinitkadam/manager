@@ -17,4 +17,5 @@ To Clone Repository and Running on device/emulator
 	-- This will run the app on your connected emulator or development device
 
 NOTE:
+
   	-- This app is made using react-native init and now create-react-native-app soit will not run on expo
