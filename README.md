@@ -18,4 +18,4 @@ To Clone Repository and Running on device/emulator
 
 NOTE:
 
-  	-- This app is made using react-native init and now create-react-native-app soit will not run on expo
+  	-- This app is made using react-native init and now create-react-native-app so it will not run on expo
