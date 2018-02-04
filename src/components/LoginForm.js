@@ -7,6 +7,9 @@ import { Card, CardSection, Input, Button, Spinner } from './common';
 
 
 class LoginForm extends Component {
+
+  state = { update: '' };
+
   onEmailChange(text) {
     this.props.emailChanged(text);
   }
@@ -19,6 +22,52 @@ class LoginForm extends Component {
     const { email, password } = this.props;
 
     this.props.loginUser({ email, password });
+  }
+
+  codePushStatusDidChange(status) {
+    switch (status) {
+        case codePush.SyncStatus.CHECKING_FOR_UPDATE:
+        this.setState({ update: 'Checking for updates.' });
+        console.log("Checking for updates.");
+            break;
+        case codePush.SyncStatus.DOWNLOADING_PACKAGE:
+        this.setState({ update: 'Downloading package.' });
+            console.log("Downloading package.");
+            break;
+        case codePush.SyncStatus.INSTALLING_UPDATE:
+        this.setState({ update: 'Installing update.' });
+            console.log("Installing update.");
+            break;
+        case codePush.SyncStatus.UP_TO_DATE:
+        this.setState({ update: 'Up-to-date.' });
+            console.log("Up-to-date.");
+            break;
+        case codePush.SyncStatus.UPDATE_INSTALLED:
+            this.setState({ update: 'Update installed.' });
+            console.log("Update installed.");
+            break;
+    }
+  }
+
+  codePushDownloadDidProgress(progress) {
+      console.log(progress.receivedBytes + " of " + progress.totalBytes + " received.");
+  }
+
+  codepushSync() {
+    codePush.sync({
+      updateDialog: true,
+      installMode: codePush.InstallMode.IMMEDIATE
+    });
+  }
+
+  renderError() {
+    if (this.props.error) {
+      return (
+        <View style={{ backgroundColor: 'white', }}>
+          <Text style={styles.errorTextStyle}>{this.props.error}</Text>
+        </View>
+      );
+    }
   }
 
   renderButton() {
@@ -34,22 +83,6 @@ class LoginForm extends Component {
     );
   }
 
-  renderError() {
-    if (this.props.error) {
-      return (
-        <View style={{ backgroundColor: 'white', }}>
-          <Text style={styles.errorTextStyle}>{this.props.error}</Text>
-        </View>
-      );
-    }
-  }
-
-  codepushSync() {
-    codePush.sync({
-      updateDialog: true,
-      installMode: codePush.InstallMode.IMMEDIATE
-    });
-  }
 
   render() {
     return (
@@ -82,6 +115,7 @@ class LoginForm extends Component {
           <Button onPress={() => this.codepushSync()}>
             Code Push Update
           </Button>
+          <Text>{`${this.state.update}`}</Text>
         </CardSection>
       </Card>
     );
