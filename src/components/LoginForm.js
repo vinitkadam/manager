@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
+import codePush from 'react-native-code-push';
 import { connect } from 'react-redux';
 import { emailChanged, passwordChanged, loginUser } from '../actions';
 import { Card, CardSection, Input, Button, Spinner } from './common';
+
 
 class LoginForm extends Component {
   onEmailChange(text) {
@@ -42,6 +44,13 @@ class LoginForm extends Component {
     }
   }
 
+  codepushSync() {
+    codePush.sync({
+      updateDialog: true,
+      installMode: codePush.InstallMode.IMMEDIATE
+    });
+  }
+
   render() {
     return (
       <Card>
@@ -68,6 +77,11 @@ class LoginForm extends Component {
 
         <CardSection>
           {this.renderButton()}
+        </CardSection>
+        <CardSection>
+          <Button onPress={() => this.codepushSync()}>
+            Code Push Update
+          </Button>
         </CardSection>
       </Card>
     );
