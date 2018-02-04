@@ -95,6 +95,9 @@ class LoginForm extends Component {
             value={this.props.email}
           />
         </CardSection>
+        <CardSection>
+          <Text> This was added using codepush</Text>
+        </CardSection>
 
         <CardSection>
           <Input
